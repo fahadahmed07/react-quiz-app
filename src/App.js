@@ -13,9 +13,12 @@ class App extends Component {
     this.handleRestartQuiz = this.handleRestartQuiz.bind(this)
   }
 
-  handleResult(correctAns) {
+  handleResult(correctAns, startTime) {
+    const endTime = new Date().getTime();    
     this.setState({
       correctAns: correctAns,
+      startTime: startTime,
+      endTime: endTime,
       showQuiz: false,
       showResult: true,
     })
@@ -29,11 +32,11 @@ class App extends Component {
   }
 
   render() {
-    const { correctAns, showQuiz, showResult, restart } = this.state;
+    const { correctAns, showQuiz, showResult, restart, startTime, endTime } = this.state;
     return (
       <div style={{ height: '100vh'}} className="container d-flex justify-content-center align-items-center">
         {showQuiz && <Quiz handleResult={this.handleResult} restart={restart} />}
-        {showResult && <Result correctAns={correctAns} handleRestartQuiz={this.handleRestartQuiz} />}
+        {showResult && <Result correctAns={correctAns} startTime={startTime} endTime={endTime} handleRestartQuiz={this.handleRestartQuiz} />}
       </div>
     );
   }

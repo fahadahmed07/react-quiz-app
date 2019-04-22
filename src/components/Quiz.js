@@ -17,7 +17,7 @@ class Quiz extends Component {
 
 
   nextQuestion() {
-    const { selectedOption, quizDate, showInd, correctAns } = this.state;
+    const { selectedOption, quizDate, showInd, correctAns, startTime,} = this.state;
 
     if (showInd < 9) {
       if (selectedOption !== "") {
@@ -41,19 +41,18 @@ class Quiz extends Component {
             correctAns: correctAns + 1,
             selectedOption: "",
           })
-          this.props.handleResult(correctAns)
+          this.props.handleResult(correctAns, startTime)
         } else {
           this.setState({
             selectedOption: "",
           })
-          this.props.handleResult(correctAns)
+          this.props.handleResult(correctAns, startTime)
         }
       }
     }
   }
 
   componentDidMount() {
-    // const { correctAns, showQuiz} = this.state;
     fetch('https://opentdb.com/api.php?amount=10').then(results => results.json()).then(response => {
       this.setState({
         quizDate: response.results,
@@ -61,22 +60,11 @@ class Quiz extends Component {
     })
   }
 
-  // static getDerivedStateFromProps(props, states) {
-  //   console.log("props => ", props)
-  //   console.log("states => ", states)
-  //   if (states.showQuiz) {
-  //     setTimeout(() => {
-  //       console.log("Timer")
-  //       props.handleResult(states.correctAns)
-  //     }, 6000)
-  //   }
-  // }
-
   renderStartQuizDiv() {
     return (
       <div className="col-lg-5 col-md-6 col-11 bg-white mx-auto text-center border shadow px-2 py-4">
         <h1 className="h2 mb-4"><span className="h1 text-primary">&quot;</span>React Quiz App<span className="h1 text-primary">&quot;</span></h1>
-        <button type="button" className="btn btn-primary shadow" onClick={() => this.setState({ showQuiz: true, startQuiz: false })}>Start Quiz</button>
+        <button type="button" className="btn btn-primary shadow" onClick={() => this.setState({ showQuiz: true, startQuiz: false, startTime: new Date().getTime() })}>Start Quiz</button>
       </div>
     )
   }
